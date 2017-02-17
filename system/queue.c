@@ -11,37 +11,7 @@
  */
 int32 	size(struct queue *q)
 {
-	//queue is empty
-	if(isempty(q) == TRUE) {
-		return 0;
-	}
-
-	//queue has only one element
-	else if(q->head->next == NULL) {
-		return 1;
-	}
-
-	else {
-		return sizehelper(q->head);
-	}
-}
-
-/**
- * Size helper method
- *
- * @param struct qentry* entry
- * @return int32 size
- */
-int32 sizehelper(struct qentry* entry) {
-	
-	//base case
-	if(entry->next == NULL) {
-		return 1;
-	}
-
-	else {
-		return sizehelper(entry->next) + 1;
-	}
+	return q->size;
 }
 
 /**
