@@ -20,40 +20,14 @@ int32 	size(struct queue *q)
  */
 void	printqueue(struct queue *q)
 {
-	//TODO - print all contents from head to tail
-	//TODO - format should be [(pid=p1), (pid=p2), ...]
-	
-	//queue is empty
-	if(isempty(q) == TRUE) {
-		kprintf("\nQueue is empty\n");
+	printf("--BEGIN STACK--\n");
+	StackNode *node = s->top;
+	while (node != NULL)
+	{
+		printf("%.2f\n", node->val);
+		node = node->next;
 	}
-
-	//queue has only one element
-	else if(q->head->next == NULL) {
-		kprintf("[(pid=%d)].\n", q->head->pid);
-	}
-
-	else {
-		printhelper(q->head->next);
-	}
-}
-
-/**
- * Printqueue helper method
- *
- * @param struct qentry* entry
- */
-void printhelper(struct qentry* entry) {
-	
-	//base case
-	if(entry->next == NULL) {
-		kprintf("[(pid=%d)].", entry->pid);
-	}
-
-	else {
-		kprintf("[(pid=%d)], ", entry->pid);
-		printhelper(entry->next);
-	}
+	printf("--END STACK--\n");printhelper(q->head->next);
 }
 
 /**
@@ -138,6 +112,7 @@ pid32 enqueue(pid32 pid, struct queue *q)
 	}
 
         //TODO - return the pid on success
+	q->size++;
 	return pid;
 }
 
@@ -180,6 +155,7 @@ pid32 dequeue(struct queue *q)
 	}	
 
         //TODO - return the pid on success
+	q->size--;
 	return xpid;
 }
 
