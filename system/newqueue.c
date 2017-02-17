@@ -13,8 +13,8 @@ struct queue *newqueue(void)
 	struct queue *newqueue = (struct queue*) malloc(sizeof(struct queue));
 
 	// TODO - initialize the structure
-	newqueue->head = EMPTY;
-	newqueue->tail = EMPTY;
+	newqueue->head = NULL;
+	newqueue->tail = NULL;
 	newqueue->size = 0;
 
 	// TODO - return pointer to the structure

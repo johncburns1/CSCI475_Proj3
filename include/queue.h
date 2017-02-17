@@ -31,7 +31,7 @@ struct queue
 struct qentry
 {
 	// TODO - process ID
-	pid32 currpid;
+	pid32 pid;
 	
 	// TODO - other members
 	struct qentry* prev;

@@ -78,9 +78,11 @@ void	nulluser(void)
 
 	// Enable interrupts
 	enable();
-
+	kprintf("\nMain Reached\n");
+	
 	//spawn a process running main() from main.c
 	ready(create((void*) main, INITSTK, "MAIN1", 2, 0, NULL), FALSE);
+	kprintf("\nMain Completed\n");
 
 	//schedule the above processes
 	while (TRUE)
