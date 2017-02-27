@@ -188,24 +188,25 @@ pid32 dequeue(struct queue *q)
 
 	else if(size(q) == 1) {
 		free(q->head, sizeof(q->head));
-		kprintf("\nFck 12\n");
+		kprintf("\n(in dequeue) Fck 12\n");
 	}
 
 	else {
 	        //TODO - get the head entry of the queue
 		//struct qentry *newhead = q->head->next;
-		kprintf("\nSize: %d\n", size(q));
+		kprintf("\n(in dequeue) Size: %d\n", size(q));
 		//kprintf("\nnewHead pid: %d", newhead->prev->pid);
 	
 	        //TODO - unlink the head entry from the rest
+		kprintf("\n(in dequeue) head pid just before unlink: %d\n", q->head->pid); 
 		xpid = q->head->pid;
-
+		kprintf("\n(in dequeue) new head pid after xpid reset: %d\n", q->head->pid);
 		//kprintf("\nnew head(BF): %d\n", newhead->pid); 
 
 	        //TODO - free up the space on the heap
 		free(q->head, sizeof(q->head));
 		//q->head = newhead;
-		kprintf("\nnew head(AF): %d\n", q->head->pid); 
+		kprintf("\n(in dequeue) new head pid after unlink(AF): %d\n", q->head->pid); 
 	}	
 
         //TODO - return the pid on success
