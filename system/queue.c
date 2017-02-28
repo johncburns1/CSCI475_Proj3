@@ -25,6 +25,11 @@ void	printqueue(struct queue *q)
 	
 	while (node != NULL)
 	{
+		if(node->next == NULL)
+		{
+			kprintf("[pid=%d].", node->pid);	
+		}
+
 		kprintf("[pid=%d], ", node->pid);
 		node = node->next;
 	}
@@ -98,7 +103,6 @@ pid32 enqueue(pid32 pid, struct queue *q)
 
         //TODO - initialize the new QEntry
 	newentry->pid = pid;
-	kprintf("\nnewEntry: %d\n", newentry->pid);
 
 	if(isempty(q) == TRUE) {
 		newentry->prev = NULL;
@@ -111,9 +115,7 @@ pid32 enqueue(pid32 pid, struct queue *q)
 		newentry->prev = q->tail;
 		newentry->next = NULL;
 		q->tail->next = newentry;
-		kprintf("\nq->tail: %d\n", q->tail->pid);
 		q->tail = newentry;
-		kprintf("\nNewTail: %d\n", q->tail->pid);
 	}
 
         //TODO - return the pid on success
@@ -139,14 +141,11 @@ pid32 dequeue(struct queue *q)
 
 	else {
 	        //TODO - get the head entry of the queue
-		kprintf("\n(in dequeue) Size: %d\n", size(q));
 		struct qentry *swapper = q->head;
 		xpid = q->head->pid;
 		
 		//TODO - unlink the head entry from the rest
-		kprintf("\n(in dequeue) head pid just before unlink: %d\n", q->head->pid);
 		q->head = q->head->next;
-		kprintf("\n(in dequeue) new head pid after unlink: %d\n", q->head->pid); 
 
 		//TODO - free up the space on the heap
 		q->size--;
@@ -247,7 +246,6 @@ pid32	remove(pid32 pid, struct queue *q)
 		struct qentry *buffer = entry->next;
 		
 		//TODO - remove process identified by pid parameter from the queue and return its pid
-		//entry.prev -- entry -- buffer 
 		entry->prev->next = buffer;
 		buffer->prev = entry->prev;
 		free(entry, sizeof(entry));

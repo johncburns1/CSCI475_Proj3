@@ -13,7 +13,7 @@ void	printpid()
 		kprintf("This is process %d\r\n", currpid);
 
 		//uncomment the line below to see cooperative scheduling
-		//resched();
+		resched();
 	}
 }
 
@@ -38,9 +38,9 @@ int	main(uint32 argc, uint32 *argv)
         // Create 5 processes
 	ready(create((void*) printpid, INITSTK, "MAIN1", 2, 0, NULL), FALSE);
 	ready(create((void*) printpid, INITSTK, "MAIN2", 2, 0, NULL), FALSE);
-	//ready(create((void*) printpid, INITSTK, "MAIN3", 2, 0, NULL), FALSE);
-	//ready(create((void*) printargs, INITSTK, "MAIN4", 2, 3, main2args), FALSE);
-	//ready(create((void*) printargs, INITSTK, "MAIN5", 2, 6, main3args), FALSE);
+	ready(create((void*) printpid, INITSTK, "MAIN3", 2, 0, NULL), FALSE);
+	ready(create((void*) printargs, INITSTK, "MAIN4", 2, 3, main2args), FALSE);
+	ready(create((void*) printargs, INITSTK, "MAIN5", 2, 6, main3args), FALSE);
 	return 0;
 }
 
