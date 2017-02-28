@@ -73,6 +73,7 @@ void	nulluser(void)
 		(uint32)maxheap - (uint32)HOLEEND);
 	    kprintf("           [0x%08X to 0x%08X]\n",
 		(uint32)HOLEEND, (uint32)truncmb(maxheap) - 1);
+	    kprintf("\n");
 	}
 
 

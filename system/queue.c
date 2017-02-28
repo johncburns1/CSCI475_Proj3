@@ -136,7 +136,7 @@ pid32 dequeue(struct queue *q)
         //TODO - return EMPTY if queue is empty
 	if(isempty(q) == TRUE) {
 		kprintf("\nIs empty on dequeue\n");
-		return NULL;
+		return EMPTY;
 	}
 
 	else {
@@ -196,7 +196,7 @@ pid32	getfirst(struct queue *q)
 {
 	//TODO - return EMPTY if queue is empty
 	if(isempty(q)) {
-		return NULL;
+		return EMPTY;
 	}
 
 	//TODO - remove process from head of queue and return its pid
@@ -214,7 +214,7 @@ pid32	getlast(struct queue *q)
 {
 	//TODO - return EMPTY if queue is empty
 	if(isempty(q)) {
-		return NULL;
+		return EMPTY;
 	}
 	
 	pid32 pid = q->tail->pid;
@@ -234,7 +234,7 @@ pid32	remove(pid32 pid, struct queue *q)
 {	
 	//TODO - return EMPTY if queue is empty
 	if(isempty(q)) {
-		return NULL;
+		return EMPTY;
 	}
 	
 	//TODO - return SYSERR if pid is illegal
