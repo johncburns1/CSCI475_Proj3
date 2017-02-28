@@ -58,6 +58,7 @@ bool8	nonempty(struct queue *q)
 	if(isempty(q) == TRUE) {
 		return FALSE;
 	}
+	
 	return TRUE;
 }
 
@@ -93,7 +94,7 @@ pid32 enqueue(pid32 pid, struct queue *q)
 	}
         
 	//TODO - allocate space on heap for a new QEntry
-	struct qentry *newentry = (struct qentry*) malloc(sizeof(struct qentry*));
+	struct qentry *newentry = (struct qentry*) malloc(sizeof(struct qentry));
 
         //TODO - initialize the new QEntry
 	newentry->pid = pid;

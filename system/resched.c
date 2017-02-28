@@ -25,23 +25,23 @@ void	resched(void)		// assumes interrupts are disabled
 		kprintf("\nIn reschedule [oldpid]: %d\n", currpid);
 		currpid = enqueue(currpid, readyqueue);
 		ptold->prstate = PR_READY;
-		kprintf("\nIn reschedule [newpid]: %d\n", currpid); 
-	}
+		kprintf("\nIn reschedule [newpid]: %d\n", currpid);
+	} 
 
-	// TODO - dequeue next process off the ready queue and point ptnew to it
-	pid32 xpid = dequeue(readyqueue);
-	kprintf("\nIn reschedule [process dequeued from ready queue]: %d\n", xpid); 
-	ptnew = &proctab[xpid];
+		// TODO - dequeue next process off the ready queue and point ptnew to it
+		pid32 xpid = dequeue(readyqueue);
+		kprintf("\nIn reschedule [process dequeued from ready queue]: %d\n", xpid); 
+		ptnew = &proctab[xpid];
 	
 
-	// TODO - change its state to "current" (i.e., running)
-	ptnew->prstate = PR_CURR;
+		// TODO - change its state to "current" (i.e., running)
+		ptnew->prstate = PR_CURR;
 
-	// TODO - set currpid to reflect new running process' PID
-	currpid = xpid;
+		// TODO - set currpid to reflect new running process' PID
+		currpid = xpid;
 
-	// Context switch to next ready process
-	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
+		// Context switch to next ready process
+		ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
 
 	// Old process returns here when resumed
 	return;
