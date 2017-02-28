@@ -98,7 +98,7 @@ pid32 enqueue(pid32 pid, struct queue *q)
 
         //TODO - initialize the new QEntry
 	newentry->pid = pid;
-	kprintf("\nnewEntry: %d\n", newentry->pid);
+	//kprintf("\nnewEntry: %d\n", newentry->pid);
 
 	if(isempty(q) == TRUE) {
 		newentry->prev = NULL;
@@ -111,9 +111,9 @@ pid32 enqueue(pid32 pid, struct queue *q)
 		newentry->prev = q->tail;
 		newentry->next = NULL;
 		q->tail->next = newentry;
-		kprintf("\nq->tail: %d\n", q->tail->pid);
+		//kprintf("\nq->tail: %d\n", q->tail->pid);
 		q->tail = newentry;
-		kprintf("\nNewTail: %d\n", q->tail->pid);
+		//kprintf("\nNewTail: %d\n", q->tail->pid);
 	}
 
         //TODO - return the pid on success
@@ -133,20 +133,20 @@ pid32 dequeue(struct queue *q)
 
         //TODO - return EMPTY if queue is empty
 	if(isempty(q) == TRUE) {
-		kprintf("\nIs empty on dequeue\n");
+		//kprintf("\nIs empty on dequeue\n");
 		return NULL;
 	}
 
 	else {
 	        //TODO - get the head entry of the queue
-		kprintf("\n(in dequeue) Size: %d\n", size(q));
+		//kprintf("\n(in dequeue) Size: %d\n", size(q));
 		struct qentry *swapper = q->head;
 		xpid = q->head->pid;
 		
 		//TODO - unlink the head entry from the rest
-		kprintf("\n(in dequeue) head pid just before unlink: %d\n", q->head->pid);
+		//kprintf("\n(in dequeue) head pid just before unlink: %d\n", q->head->pid);
 		q->head = q->head->next;
-		kprintf("\n(in dequeue) new head pid after unlink: %d\n", q->head->pid); 
+		//kprintf("\n(in dequeue) new head pid after unlink: %d\n", q->head->pid); 
 
 		//TODO - free up the space on the heap
 		q->size--;
