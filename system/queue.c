@@ -19,15 +19,17 @@ int32 	size(struct queue *q)
  * @param q	pointer to a queue
  */
 void	printqueue(struct queue *q)
-{
-	printf("--BEGIN STACK--\n");
-	StackNode *node = s->top;
+{	
+	struct qentry *node = q->head;
+	kprintf("\n");
+	
 	while (node != NULL)
 	{
-		printf("%.2f\n", node->val);
+		kprintf("[pid=%d], ", node->pid);
 		node = node->next;
 	}
-	printf("--END STACK--\n");printhelper(q->head->next);
+	
+	kprintf("\n");
 }
 
 /**
@@ -95,8 +97,9 @@ pid32 enqueue(pid32 pid, struct queue *q)
 
         //TODO - initialize the new QEntry
 	newentry->pid = pid;
+	kprintf("\nnewEntry: %d\n", newentry->pid);
 
-	if(size(q) == 0) {
+	if(isempty(q) == TRUE) {
 		newentry->prev = NULL;
 		newentry->next = NULL;
 		q->head = newentry;
@@ -106,9 +109,10 @@ pid32 enqueue(pid32 pid, struct queue *q)
 	else {
 		newentry->prev = q->tail;
 		newentry->next = NULL;
-
 		q->tail->next = newentry;
+		kprintf("\nq->tail: %d\n", q->tail->pid);
 		q->tail = newentry;
+		kprintf("\nNewTail: %d\n", q->tail->pid);
 	}
 
         //TODO - return the pid on success
@@ -128,34 +132,28 @@ pid32 dequeue(struct queue *q)
 
         //TODO - return EMPTY if queue is empty
 	if(isempty(q) == TRUE) {
+		kprintf("\nIs empty on dequeue\n");
 		return NULL;
-	}
-
-	else if(size(q) == 1) {
-		free(q->head, sizeof(q->head));
-		kprintf("\n(in dequeue) Fck 12\n");
 	}
 
 	else {
 	        //TODO - get the head entry of the queue
-		//struct qentry *newhead = q->head->next;
 		kprintf("\n(in dequeue) Size: %d\n", size(q));
-		//kprintf("\nnewHead pid: %d", newhead->prev->pid);
-	
-	        //TODO - unlink the head entry from the rest
-		kprintf("\n(in dequeue) head pid just before unlink: %d\n", q->head->pid); 
+		struct qentry *swapper = q->head;
 		xpid = q->head->pid;
-		kprintf("\n(in dequeue) new head pid after xpid reset: %d\n", q->head->pid);
-		//kprintf("\nnew head(BF): %d\n", newhead->pid); 
+		
+		//TODO - unlink the head entry from the rest
+		kprintf("\n(in dequeue) head pid just before unlink: %d\n", q->head->pid);
+		q->head = q->head->next;
+		kprintf("\n(in dequeue) new head pid after unlink: %d\n", q->head->pid); 
 
-	        //TODO - free up the space on the heap
-		free(q->head, sizeof(q->head));
-		//q->head = newhead;
-		kprintf("\n(in dequeue) new head pid after unlink(AF): %d\n", q->head->pid); 
+		//TODO - free up the space on the heap
+		q->size--;
+		free(swapper, sizeof(swapper));
 	}	
 
-        //TODO - return the pid on success
-	q->size--;
+       
+	 //TODO - return the pid on success
 	return xpid;
 }
 
@@ -172,34 +170,20 @@ struct qentry *getbypid(pid32 pid, struct queue *q)
 	if(isempty(q) == TRUE || isbadpid(pid) == TRUE) {
 		return NULL;
 	}
+
+	struct qentry *iter = q->head;
 	
 	//if first element
-	if(pid == q->head->pid) {
-		return q->head;
-	}
+	while(iter != NULL) {
+		
+		if(iter->pid == pid) {
+			return iter;
+		}
 
-	//TODO - find the qentry with the given pid
-	else {
-		return getbypidhelper(pid, q->head->next);
-	}
-}
-
-/**
- * Recursive helper for findbypid method
- * @param pid	a process ID
- * @param q	a pointer to a qentry
- * @return pointer to the entry if found, NULL otherwise
- */
-struct qentry *getbypidhelper(pid32 pid, struct qentry* entry) {
-
-	//base case
-	if(pid == entry->pid) {
-		return entry;
-	}
-
-	//TODO - find the qentry with the given pid
-	else {
-		return getbypidhelper(pid, entry->next);
+		//TODO - find the qentry with the given pid
+		else {
+			iter = iter->next;
+		}
 	}
 }
 
@@ -246,9 +230,7 @@ pid32	getlast(struct queue *q)
  * @return pid on success, SYSERR if pid is not found
  */
 pid32	remove(pid32 pid, struct queue *q)
-{
-	struct qentry *buffer = NULL;
-	
+{	
 	//TODO - return EMPTY if queue is empty
 	if(isempty(q)) {
 		return NULL;
@@ -260,12 +242,13 @@ pid32	remove(pid32 pid, struct queue *q)
 	}
 	
 	else {
-		struct qentry* entry = getbypid(pid, q);
+		struct qentry *entry = getbypid(pid, q);
+		struct qentry *buffer = entry->next;
 		
 		//TODO - remove process identified by pid parameter from the queue and return its pid
-		buffer = entry->next;
-		entry->prev->next = buffer->next;
-		entry->next->prev = buffer->prev;
+		//entry.prev -- entry -- buffer 
+		entry->prev->next = buffer;
+		buffer->prev = entry->prev;
 		free(entry, sizeof(entry));
 		return pid;		
 	}
