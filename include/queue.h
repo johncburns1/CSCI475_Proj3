@@ -41,11 +41,7 @@ struct qentry
 
 /* Queue function prototypes (don't touch!) */
 void    printqueue(struct queue *q);
-void printhelper(struct qentry* entry);
 int32 	size(struct queue *q);
-int32 sizehelper(struct qentry* entry);
-struct qentry *getbypidhelper(pid32 pid, struct qentry* entry);
-
 
 bool8	isempty(struct queue *q);
 bool8	nonempty(struct queue *q);

@@ -39,8 +39,18 @@ int	main(uint32 argc, uint32 *argv)
 	ready(create((void*) printpid, INITSTK, "MAIN1", 2, 0, NULL), FALSE);
 	ready(create((void*) printpid, INITSTK, "MAIN2", 2, 0, NULL), FALSE);
 	ready(create((void*) printpid, INITSTK, "MAIN3", 2, 0, NULL), FALSE);
+<<<<<<< HEAD
 	ready(create((void*) printargs, INITSTK, "MAIN4", 2, 3, main2args), FALSE);
 	ready(create((void*) printargs, INITSTK, "MAIN5", 2, 6, main3args), FALSE);
+=======
+<<<<<<< HEAD
+	ready(create((void*) printargs, INITSTK, "MAIN4", 2, 3, main2args), FALSE);
+	ready(create((void*) printargs, INITSTK, "MAIN5", 2, 6, main3args), FALSE);
+=======
+	//ready(create((void*) printargs, INITSTK, "MAIN4", 2, 3, main2args), FALSE);
+	//ready(create((void*) printargs, INITSTK, "MAIN5", 2, 6, main3args), FALSE);
+>>>>>>> bce8c78a4db862b73504afcc431990be8b0c5d0f
+>>>>>>> b34c4ad5956d3de95e09c1ba93a5114bebcb7f93
 	return 0;
 }
 
