@@ -218,6 +218,7 @@ pid32	getlast(struct queue *q)
 	}
 	
 	pid32 pid = q->tail->pid;
+	
 	return remove(pid, q);
 }
 
