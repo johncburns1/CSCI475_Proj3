@@ -26,6 +26,7 @@ status	ready(pid32 pid, bool8 resch)
 	// TODO - enqueue the process
 	pid = enqueue(pid, readyqueue);
 
+
 	if (resch == RESCHED_YES)
 		resched();
 

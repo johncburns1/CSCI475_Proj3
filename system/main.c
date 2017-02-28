@@ -43,6 +43,7 @@ int	main(uint32 argc, uint32 *argv)
 	ready(create((void*) printargs, INITSTK, "MAIN5", 2, 6, main3args), FALSE);
 	printqueue(readyqueue);
 
+
 	return 0;
 }
 
