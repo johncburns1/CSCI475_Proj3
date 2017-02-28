@@ -25,12 +25,24 @@ void	printqueue(struct queue *q)
 	
 	while (node != NULL)
 	{
-		if(node->next == NULL)
+		//1st process
+		if(q->head == node) 
 		{
-			kprintf("[pid=%d].", node->pid);	
+			kprintf("[(pid=%d), ", node->pid);
+		}
+		
+		//last process
+		else if(q->tail == node)
+		{
+			kprintf("(pid=%d)].\n", node->pid);	
+		}
+		
+		//every other process
+		else 
+		{
+			kprintf("(pid=%d), ", node->pid);
 		}
 
-		kprintf("[pid=%d], ", node->pid);
 		node = node->next;
 	}
 	
@@ -185,6 +197,8 @@ struct qentry *getbypid(pid32 pid, struct queue *q)
 			iter = iter->next;
 		}
 	}
+
+	return NULL;
 }
 
 /**
@@ -222,8 +236,6 @@ pid32	getlast(struct queue *q)
 	return remove(pid, q);
 }
 
-
-
 /**
  * Remove a process from an arbitrary point in a queue
  * @param pid	ID of process to remove
@@ -243,6 +255,8 @@ pid32	remove(pid32 pid, struct queue *q)
 	}
 	
 	else {
+		
+		//buffers for removal
 		struct qentry *entry = getbypid(pid, q);
 		struct qentry *buffer = entry->next;
 		

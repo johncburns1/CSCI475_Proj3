@@ -10,8 +10,8 @@ void	printpid()
 
 	for (i=0; i<10; i++)
 	{
-		kprintf("This is process %d\r\n", currpid);
-
+		kprintf("This is process %d\r\n", currpid);			
+		
 		//uncomment the line below to see cooperative scheduling
 		resched();
 	}
@@ -41,6 +41,7 @@ int	main(uint32 argc, uint32 *argv)
 	ready(create((void*) printpid, INITSTK, "MAIN3", 2, 0, NULL), FALSE);
 	ready(create((void*) printargs, INITSTK, "MAIN4", 2, 3, main2args), FALSE);
 	ready(create((void*) printargs, INITSTK, "MAIN5", 2, 6, main3args), FALSE);
+	printqueue(readyqueue);
 
 	return 0;
 }
