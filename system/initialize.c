@@ -73,15 +73,14 @@ void	nulluser(void)
 		(uint32)maxheap - (uint32)HOLEEND);
 	    kprintf("           [0x%08X to 0x%08X]\n",
 		(uint32)HOLEEND, (uint32)truncmb(maxheap) - 1);
-	    kprintf("\n");
 	}
 
 
 	// Enable interrupts
 	enable();
-	
+
 	//spawn a process running main() from main.c
-	ready(create((void*) main, INITSTK, "MAIN1", 2, 0, NULL), FALSE);
+	ready(create((void*) main, INITSTK, INITPRIO, "MAIN1", 2, 0, NULL), FALSE);
 
 	//schedule the above processes
 	while (TRUE)
@@ -161,6 +160,7 @@ static	void	sysinit(void)
 
 	prptr = &proctab[NULLPROC];
 	prptr->prstate = PR_CURR;
+	prptr->prprio = 0;	//DC
 	strncpy(prptr->prname, "prnull", 7);
 	prptr->prstkbase = getstk(NULLSTK);
 	prptr->prstklen = NULLSTK;
