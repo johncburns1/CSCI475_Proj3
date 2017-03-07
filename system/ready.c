@@ -26,9 +26,11 @@ status	ready(pid32 pid, bool8 resch)
 	// TODO - enqueue the process
 	pid = enqueue(pid, readyqueue, prptr->prprio);
 
-
 	if (resch == RESCHED_YES)
+	{
+		//set AGING to TRUE, reschedule and then set AGING to FALSE
 		resched();
+	}
 
 	return OK;
 }
