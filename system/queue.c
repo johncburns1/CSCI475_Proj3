@@ -28,19 +28,19 @@ void	printqueue(struct queue *q)
 		//1st process
 		if(q->head == node) 
 		{
-			kprintf("[(pid=%d), ", node->pid);
+			kprintf("[(pid=%d, key=%d), ", node->pid, node->key);
 		}
 		
 		//last process
 		else if(q->tail == node)
 		{
-			kprintf("(pid=%d)].\n", node->pid);	
+			kprintf("(pid=%d, key=%d)].\n", node->pid, node->key);	
 		}
 		
 		//every other process
 		else 
 		{
-			kprintf("(pid=%d), ", node->pid);
+			kprintf("(pid=%d, key=%d), ", node->pid, node->key);
 		}
 
 		node = node->next;
@@ -100,10 +100,11 @@ bool8	isfull(struct queue *q)
  * Insert a process at the tail of a queue
  * @param pid	ID process to insert
  * @param q	Pointer to the queue to use
+ * @param key	priority key of process
  *
  * @return pid on success, SYSERR otherwise
  */
-pid32 enqueue(pid32 pid, struct queue *q)
+pid32 enqueue(pid32 pid, struct queue *q, int32 key)
 {
         //TODO - check if queue is full and if pid is illegal, and return SYSERR if either is true
 	if(isfull(q) == TRUE || isbadpid(pid) == TRUE) {
@@ -114,7 +115,9 @@ pid32 enqueue(pid32 pid, struct queue *q)
 	struct qentry *newentry = (struct qentry*) malloc(sizeof(struct qentry));
 
         //TODO - initialize the new QEntry
+	//kprintf("key %d\n", key);
 	newentry->pid = pid;
+	newentry->key = key;		
 
 	if(isempty(q) == TRUE) {
 		newentry->prev = NULL;
@@ -124,13 +127,57 @@ pid32 enqueue(pid32 pid, struct queue *q)
 	}
 	
 	else {
-		newentry->prev = q->tail;
-		newentry->next = NULL;
-		q->tail->next = newentry;
-		q->tail = newentry;
+		//kprintf("gets here\n");
+		if(key > q->head->key)
+		{
+			//kprintf("First element here has priority %d\n", key);
+			newentry->next = q->head;
+			newentry->prev = NULL;
+			q->head = newentry;
+			newentry->next->prev = newentry;
+			
+		}
+		
+		else 
+		{
+			//kprintf("Other\n");
+			struct qentry *iter = q->head;
+			int cont = 1;
+	
+			//iterate throught the queue
+			while(iter != NULL && cont == 1) {
+	
+				//the tail
+				if(iter->next == NULL)
+				{
+					newentry->prev = q->tail;	
+					newentry->next = NULL;
+					q->tail->next = newentry;
+					q->tail = newentry;
+					cont = 0;
+				}
+				
+				//regular case
+				else if(iter->key < key) {
+					//kprintf("%d is greater than %d\n", key, iter->key);
+					newentry->next = iter;
+					newentry->prev = iter->prev;
+					newentry->prev->next = newentry;
+					iter->prev = newentry;
+					cont = 0;
+				}
+				
+				//TODO - find the qentry with the given pid
+				else {
+					//kprintf("%d is NOT greater than %d\n", key, iter->key);
+					iter = iter->next;
+				}
+			}
+		}
 	}
 
         //TODO - return the pid on success
+	//printqueue(q);
 	q->size++;
 	return pid;
 }

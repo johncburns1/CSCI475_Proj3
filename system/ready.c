@@ -24,7 +24,7 @@ status	ready(pid32 pid, bool8 resch)
 	prptr->prstate = PR_READY;	
 
 	// TODO - enqueue the process
-	pid = enqueue(pid, readyqueue);
+	pid = enqueue(pid, readyqueue, prptr->prprio);
 
 
 	if (resch == RESCHED_YES)

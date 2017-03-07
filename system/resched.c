@@ -23,7 +23,7 @@ void	resched(void)		// assumes interrupts are disabled
 	// TODO - check ptold's state. If it's running, put it on the ready queue and change state to ready
 	if(ptold->prstate == PR_CURR) {
 
-		currpid = enqueue(currpid, readyqueue);
+		currpid = enqueue(currpid, readyqueue, ptold->prprio);
 		ptold->prstate = PR_READY;
 	}
 
