@@ -28,7 +28,6 @@ status	ready(pid32 pid, bool8 resch)
 
 	if (resch == RESCHED_YES)
 	{
-		//set AGING to TRUE, reschedule and then set AGING to FALSE
 		resched();
 	}
 

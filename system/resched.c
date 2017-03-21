@@ -8,9 +8,6 @@
  */
 void	resched(void)		// assumes interrupts are disabled
 {
-	//set AGING to TRUE
-	AGING = TRUE;
-
 	struct procent *ptold;	// ptr to table entry for old process
 	struct procent *ptnew;	// ptr to table entry for new process
 
@@ -23,6 +20,13 @@ void	resched(void)		// assumes interrupts are disabled
 	// Point to process table entry for the current (old) process
 	ptold = &proctab[currpid];
 
+	// TODO - check ptold's state. If it's running, put it on the ready queue and change state to ready
+	if(ptold->prstate == PR_CURR) {
+
+		currpid = enqueue(currpid, readyqueue, ptold->prprio);
+		ptold->prstate = PR_READY;
+	}
+
 	//implement aging policy
 	if(AGING == TRUE)	
 	{
@@ -33,7 +37,7 @@ void	resched(void)		// assumes interrupts are disabled
 			while(node != NULL)
 			{
 				//if not the null process
-				if(node->pid != 0)
+				if(node->pid != 0 && node->pid != currpid)
 				{
 					//increment the key (priority) of every process on the queue
 					INCREMENT(node->key);
@@ -43,13 +47,6 @@ void	resched(void)		// assumes interrupts are disabled
 				node = node->next;
 			}
 		}
-	}
-
-	// TODO - check ptold's state. If it's running, put it on the ready queue and change state to ready
-	if(ptold->prstate == PR_CURR) {
-
-		currpid = enqueue(currpid, readyqueue, ptold->prprio);
-		ptold->prstate = PR_READY;
 	}
 
 	// TODO - dequeue next process off the ready queue and point ptnew to it
@@ -65,9 +62,6 @@ void	resched(void)		// assumes interrupts are disabled
 
 	// Context switch to next ready process
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
-
-	//set AGING to FALSE
-	AGING = FALSE;
 
 	// Old process returns here when resumed
 	return;

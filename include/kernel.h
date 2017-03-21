@@ -43,10 +43,13 @@ typedef	int32	status;		/* returned status value (OK/SYSERR)	*/
 #define FALSE	0		/* Boolean False */
 #define TRUE	1		/* Boolean True */
 
-#define INCREMENT(x) x++;
+/* Define Increment Macro */
+#define INCREMENT(x)	x++;
 
-/* Aging policy */
-#define AGING
+/* Aging policy boolean*/
+//#ifndef AGING
+#define AGING 
+//#endif //#ifndef AGING
 
 /* Null pointer, character, and string definintions */
 

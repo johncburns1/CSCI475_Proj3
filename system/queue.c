@@ -25,8 +25,15 @@ void	printqueue(struct queue *q)
 	
 	while (node != NULL)
 	{
+
+		//if there is only 1 element
+		if(q->head == node && q->tail == node)
+		{
+			kprintf("[(pid=%d, key=%d)]. ", node->pid, node->key);
+		}
+		
 		//1st process
-		if(q->head == node) 
+		else if(q->head == node) 
 		{
 			kprintf("[(pid=%d, key=%d), ", node->pid, node->key);
 		}
@@ -115,7 +122,6 @@ pid32 enqueue(pid32 pid, struct queue *q, int32 key)
 	struct qentry *newentry = (struct qentry*) malloc(sizeof(struct qentry));
 
         //TODO - initialize the new QEntry
-	//kprintf("key %d\n", key);
 	newentry->pid = pid;
 	newentry->key = key;		
 
@@ -127,7 +133,6 @@ pid32 enqueue(pid32 pid, struct queue *q, int32 key)
 	}
 	
 	else {
-		//kprintf("gets here\n");
 		if(key > q->head->key)
 		{
 			//kprintf("First element here has priority %d\n", key);
@@ -140,30 +145,29 @@ pid32 enqueue(pid32 pid, struct queue *q, int32 key)
 		
 		else 
 		{
-			//kprintf("Other\n");
 			struct qentry *iter = q->head;
 			int cont = 1;
 	
 			//iterate throught the queue
 			while(iter != NULL && cont == 1) {
-	
-				//the tail
-				if(iter->next == NULL)
-				{
-					newentry->prev = q->tail;	
-					newentry->next = NULL;
-					q->tail->next = newentry;
-					q->tail = newentry;
-					cont = 0;
-				}
 				
 				//regular case
-				else if(iter->key < key) {
+				if(iter->key < key) {
 					//kprintf("%d is greater than %d\n", key, iter->key);
 					newentry->next = iter;
 					newentry->prev = iter->prev;
 					newentry->prev->next = newentry;
 					iter->prev = newentry;
+					cont = 0;
+				}
+
+				//the tail
+				else if(iter->next == NULL)
+				{
+					newentry->prev = q->tail;	
+					newentry->next = NULL;
+					q->tail->next = newentry;
+					q->tail = newentry;
 					cont = 0;
 				}
 				
@@ -178,7 +182,7 @@ pid32 enqueue(pid32 pid, struct queue *q, int32 key)
 
         //TODO - return the pid on success
 	//printqueue(q);
-	q->size++;
+	q->size++;	
 	return pid;
 }
 
