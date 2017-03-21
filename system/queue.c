@@ -217,6 +217,7 @@ pid32 dequeue(struct queue *q)
 
        
 	 //TODO - return the pid on success
+	//printqueue(q);
 	return xpid;
 }
 

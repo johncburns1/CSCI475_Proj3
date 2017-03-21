@@ -17,27 +17,17 @@ void	resched(void)		// assumes interrupts are disabled
 		return;
 	}
 
-	// Point to process table entry for the current (old) process
-	ptold = &proctab[currpid];
-
-	// TODO - check ptold's state. If it's running, put it on the ready queue and change state to ready
-	if(ptold->prstate == PR_CURR) {
-
-		currpid = enqueue(currpid, readyqueue, ptold->prprio);
-		ptold->prstate = PR_READY;
-	}
-
 	//implement aging policy
 	if(AGING == TRUE)	
 	{
 		if(nonempty(readyqueue) == TRUE)
 		{
 			//do not increase the priority of the node to be scheduled for running
-			struct qentry *node = readyqueue->head->next;
+			struct qentry *node = readyqueue->head;
 			while(node != NULL)
 			{
 				//if not the null process
-				if(node->pid != 0 && node->pid != currpid)
+				if(node->pid != 0)
 				{
 					//increment the key (priority) of every process on the queue
 					INCREMENT(node->key);
@@ -47,6 +37,16 @@ void	resched(void)		// assumes interrupts are disabled
 				node = node->next;
 			}
 		}
+	}
+
+	// Point to process table entry for the current (old) process
+	ptold = &proctab[currpid];
+
+	// TODO - check ptold's state. If it's running, put it on the ready queue and change state to ready
+	if(ptold->prstate == PR_CURR) {
+
+		currpid = enqueue(currpid, readyqueue, ptold->prprio);
+		ptold->prstate = PR_READY;
 	}
 
 	// TODO - dequeue next process off the ready queue and point ptnew to it

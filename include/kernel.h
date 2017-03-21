@@ -47,9 +47,7 @@ typedef	int32	status;		/* returned status value (OK/SYSERR)	*/
 #define INCREMENT(x)	x++;
 
 /* Aging policy boolean*/
-//#ifndef AGING
-#define AGING 
-//#endif //#ifndef AGING
+#define AGING TRUE
 
 /* Null pointer, character, and string definintions */
 
