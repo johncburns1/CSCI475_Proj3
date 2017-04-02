@@ -1,5 +1,5 @@
-# CSCI475-Proj2
-Implementing a Xinu ready queue for Oracle VM VirtualBox ~5.1.14.
+# CSCI475-Proj3 (Time Scheduling)
+Implementing time scheduling in Oracle VM VirtualBox ~5.1.14.
 
 This repository is being used as a collaborative workspace for project group memebers.
 
