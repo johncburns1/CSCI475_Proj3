@@ -46,8 +46,11 @@ typedef	int32	status;		/* returned status value (OK/SYSERR)	*/
 /* Define Increment Macro */
 #define INCREMENT(x)	x++;
 
-/* Aging policy boolean*/
+/* Aging policy boolean */
 #define AGING TRUE
+
+/* Length of Quantum */
+#define QUANTUM 10
 
 /* Null pointer, character, and string definintions */
 
