@@ -22,14 +22,14 @@ void	clkinit(void)
 	// TODO -- set initial value of the countdown!
 	//	We want to set countdown in such a way that
 	//	the timer goes off every 1ms
-	uint16	countdown = 0x4A9; //1193
+	uint16	countdown = 1193; //0x4A9
 
-	//cut off the top 8 bits
-	unit16	leastSig = countdown & 0x00FF;	
-	
 	//cut off the first 8 bits and then shift them right
 	unit16	mostSig = countdown & 0xFF00;
 	mostSig >>= 8;
+
+	//cut off the top 8 bits
+	unit16	leastSig = countdown & 0x00FF;	
 
 	// TODO -- Now program the initial value for countdown
 	// 	must write in two operations
