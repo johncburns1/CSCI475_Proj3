@@ -51,7 +51,7 @@ typedef	int32	status;		/* returned status value (OK/SYSERR)	*/
 #define AGING TRUE
 
 /* Length of Quantum */
-#define QUANTUM	1
+#define QUANTUM	10
 
 /* Null pointer, character, and string definintions */
 
