@@ -58,7 +58,7 @@ void	resched(void)		// assumes interrupts are disabled
 	ptnew->prstate = PR_CURR;
 
 	//reset preempt
-	kprintf("Context Switch on: %d ---> %d\n", currpid, xpid); 
+	//kprintf("Context Switch on: %d ---> %d\n", currpid, xpid); 
 
 	// TODO - set currpid to reflect new running process' PID
 	currpid = xpid;
