@@ -26,6 +26,7 @@ typedef	byte	bool8;		/* Boolean type				*/
 typedef	uint16	intmask;	/* saved interrupt mask			*/
 typedef	int32	ibid32;		/* index block ID (used in file system)	*/
 typedef	int32	dbid32;		/* data block ID (used in file system)	*/
+typedef uint32 	mutex_t;	/* mutex block	*			*/
 
 /* Function declaration return types */
 
@@ -50,7 +51,7 @@ typedef	int32	status;		/* returned status value (OK/SYSERR)	*/
 #define AGING TRUE
 
 /* Length of Quantum */
-#define QUANTUM 10
+#define QUANTUM	10
 
 /* Null pointer, character, and string definintions */
 

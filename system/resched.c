@@ -60,6 +60,9 @@ void	resched(void)		// assumes interrupts are disabled
 	// TODO - set currpid to reflect new running process' PID
 	currpid = xpid;
 
+	//reset preempt
+	preempt = QUANTUM;
+
 	// Context switch to next ready process
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
 

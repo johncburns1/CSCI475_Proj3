@@ -179,6 +179,7 @@ static	void	sysinit(void)
 	/* Initialize buffer pools */
 
 	bufinit();
+
 	/* Create a ready list for processes */
 
 	readyqueue = newqueue();
@@ -186,6 +187,10 @@ static	void	sysinit(void)
 	/* Initialize the PCI bus */
 
 	pci_init();
+
+	/* Initiailize timer */
+	
+	clkinit();
 
 	for (i = 0; i < NDEVS; i++) {
 		if (! isbaddev(i)) {

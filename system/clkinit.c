@@ -22,19 +22,18 @@ void	clkinit(void)
 	// TODO -- set initial value of the countdown!
 	//	We want to set countdown in such a way that
 	//	the timer goes off every 1ms
-	uint16	countdown = 1193; //0x4A9
+	uint16	countdown = 1193;
 
 	//cut off the first 8 bits and then shift them right
-	unit16	mostSig = countdown & 0xFF00;
-	mostSig >>= 8;
+	uint16 	mostSig = countdown >> 8;
 
 	//cut off the top 8 bits
-	unit16	leastSig = countdown & 0x00FF;	
+	uint16	leastSig = countdown & 0x00FF;	
 
 	// TODO -- Now program the initial value for countdown
 	// 	must write in two operations
-	outb(CLOCK0, leastSig);	//write least significant byte of countdown
-	outb(CLOCK0, mostSig);	//write most significant byte of countdown
+	outb(CLOCK0, (char) (leastSig));	//write least significant byte of countdown
+	outb(CLOCK0, (char) (mostSig));	//write most significant byte of countdown
 
 
 	// Set interrupt vector for clock to invoke clkint
