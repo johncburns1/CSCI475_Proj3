@@ -2,41 +2,68 @@
 
 #include <xinu.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-mutex_t lock = FALSE;
+#define N 5	//number of philosophers and forks
 
-void    printchar(char c)
+//TODO - locks must be declared and initialized here
+mutex_t 
+
+
+/**
+ * Delay for a random amount of time
+ * @param alpha delay factor
+ */
+void	holdup(int32 alpha)
 {
-	mutex_lock(&lock);
-	int i;
-	for (i=0; i<20; i++)
-	{
-        	kprintf("%c", c);
-	}
-	mutex_unlock(&lock);
+	long delay = rand() * alpha;
+	while (delay-- > 0)
+		;	//no op
 }
 
-void    printchar2(char c)
+/**
+ * Eat for a random amount of time
+ */
+void	eat()
 {
-	int i;
-	for (i=0; i<20; i++)
+	holdup(10000);
+}
+
+/**
+ * Think for a random amount of time
+ */
+void	think()
+{
+	holdup(1000);
+}
+
+
+
+/**
+ * Philosopher's code
+ * @param phil_id philosopher's id
+ */
+void	philosopher(uint32 phil_id)
+{
+	uint32 right = ??;				//TODO - right fork
+	uint32 left = ??;	//TODO - left fork
+
+	while (TRUE)
 	{
-        	kprintf("%c", c);
+		//TODO
+		//think 70% of the time
+		//eat 30% of the time
 	}
 }
 
-int main(uint32 argc, uint32 *argv)
+int	main(uint32 argc, uint32 *argv)
 {
-    //priority of process is input as the 3rd argument of create()
-    ready(create((void*) printchar, INITSTK, 15, "P1", 1, 'A'), FALSE);
-    ready(create((void*) printchar, INITSTK, 15, "P2", 1, 'B'), FALSE);
+	//do not change
+	ready(create((void*) philosopher, INITSTK, 15, "Ph1", 1, 0), FALSE);
+	ready(create((void*) philosopher, INITSTK, 15, "Ph2", 1, 1), FALSE);
+	ready(create((void*) philosopher, INITSTK, 15, "Ph3", 1, 2), FALSE);
+	ready(create((void*) philosopher, INITSTK, 15, "Ph4", 1, 3), FALSE);
+	ready(create((void*) philosopher, INITSTK, 15, "Ph5", 1, 4), FALSE);
 
-    ready(create((void*) printchar, INITSTK, 15, "P3", 1, 'C'), FALSE);
-    ready(create((void*) printchar, INITSTK, 15, "P4", 1, 'D'), FALSE);
-
-    ready(create((void*) printchar, INITSTK, 15, "P5", 1, 'E'), FALSE);
-    ready(create((void*) printchar, INITSTK, 15, "P6", 1, 'F'), FALSE);
-    
-
-    return 0;
+	return 0;
 }
