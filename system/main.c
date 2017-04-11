@@ -44,6 +44,8 @@ void	think()
  */
 void	philosopher(uint32 phil_id)
 {
+	//seed rand() from time of boot
+	srand(phil_id);
 
 	//TODO - right fork	
 	uint32 left = phil_id;
@@ -107,7 +109,7 @@ void	philosopher(uint32 phil_id)
 				mutex_unlock(&forks[right]);
 			}
 			
-			//unlock
+			//drop fork
 			else
 			{
 				mutex_unlock(&forks[right]);
@@ -132,10 +134,7 @@ void	philosopher(uint32 phil_id)
 }
 
 int	main(uint32 argc, uint32 *argv)
-{	
-	//seed rand() from time of boot
-	srand(clktime);
-	
+{		
 	//do not change
 	ready(create((void*) philosopher, INITSTK, 15, "Ph1", 1, 0), FALSE);
 	ready(create((void*) philosopher, INITSTK, 15, "Ph2", 1, 1), FALSE);
